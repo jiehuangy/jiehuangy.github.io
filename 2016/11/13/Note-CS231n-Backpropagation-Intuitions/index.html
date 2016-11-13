@@ -84,15 +84,27 @@
 
 
 
+<meta name="description" content="Intuitive understanding of backpropagationEvery gate in a circuit diagram gets some inputs and can right away compute two things: 
+
+its output value.
+the local gradient of its inputs with respect to i">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Note CS231n Backpropagation, Intuitions">
 <meta property="og:url" content="http://yoursite.com/2016/11/13/Note-CS231n-Backpropagation-Intuitions/index.html">
 <meta property="og:site_name" content="EverMind">
+<meta property="og:description" content="Intuitive understanding of backpropagationEvery gate in a circuit diagram gets some inputs and can right away compute two things: 
+
+its output value.
+the local gradient of its inputs with respect to i">
 <meta property="og:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f1.png">
 <meta property="og:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f2.png">
-<meta property="og:updated_time" content="2016-11-13T11:41:57.000Z">
+<meta property="og:updated_time" content="2016-11-13T11:45:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Note CS231n Backpropagation, Intuitions">
+<meta name="twitter:description" content="Intuitive understanding of backpropagationEvery gate in a circuit diagram gets some inputs and can right away compute two things: 
+
+its output value.
+the local gradient of its inputs with respect to i">
 <meta name="twitter:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f1.png">
 
 
@@ -287,12 +299,13 @@
       
 
       
-        <p><img src="/images/Note-CS231n-Backpropagation-Intuitions-f1.png" alt="profile"><br><a id="more"></a></p>
-<h2 id="Intuitive-understanding-of-backpropagation"><a href="#Intuitive-understanding-of-backpropagation" class="headerlink" title="Intuitive understanding of backpropagation"></a>Intuitive understanding of backpropagation</h2><p>Every gate in a circuit diagram gets some inputs and can right away compute two things: </p>
+        <h2 id="Intuitive-understanding-of-backpropagation"><a href="#Intuitive-understanding-of-backpropagation" class="headerlink" title="Intuitive understanding of backpropagation"></a>Intuitive understanding of backpropagation</h2><p>Every gate in a circuit diagram gets some inputs and can right away compute two things: </p>
 <ol>
 <li>its output value.</li>
 <li>the local gradient of its inputs with respect to its output value.</li>
 </ol>
+<a id="more"></a>
+<p><img src="/images/Note-CS231n-Backpropagation-Intuitions-f1.png" alt="profile"></p>
 <p>During the backward pass in which the chain rule is applied recursively backwards through the circuit, the add gate learns that the gradient for its output was -4. If we anthropomorphize the circuit as wanting to output a higher value, then we can think of the circuit as “wanting” the output of the add gate to be lower (due to negative sign), and with a force of 4.</p>
 <p>Backpropagation can thus be thought of as gates communicating to each other (through the gradient signal) whether they want their outputs to increase or decrease (and how strongly), so as to make the </p>
 <h2 id="Modularity-Sigmoid-example"><a href="#Modularity-Sigmoid-example" class="headerlink" title="Modularity: Sigmoid example"></a>Modularity: Sigmoid example</h2><p><img src="/images/Note-CS231n-Backpropagation-Intuitions-f2.png" alt=""><br>Example circuit for a 2D neuron with a sigmoid activation function. The inputs are [x0,x1] and the (learnable) weights of the neuron are [w0,w1,w2].<br><span>$$\begin{aligned}

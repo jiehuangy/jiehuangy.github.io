@@ -1,0 +1,652 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Note CS231n] Linear classification: SVM, Softmax">
+<meta property="og:url" content="http://yoursite.com/2016/11/10/Note-CS231n-Linear-classification-SVM-Softmax/index.html">
+<meta property="og:site_name" content="EverMind">
+<meta property="og:image" content="http://yoursite.com/images/Note-CS231n-Linear-classification-SVM-Softmax-svmvssoftmax.png">
+<meta property="og:updated_time" content="2016-11-13T07:54:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Note CS231n] Linear classification: SVM, Softmax">
+<meta name="twitter:image" content="http://yoursite.com/images/Note-CS231n-Linear-classification-SVM-Softmax-svmvssoftmax.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/10/Note-CS231n-Linear-classification-SVM-Softmax/"/>
+
+
+  <title> [Note CS231n] Linear classification: SVM, Softmax | EverMind </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EverMind</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Find Something Interesting.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [Note CS231n] Linear classification: SVM, Softmax
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-10T00:58:04+08:00" content="2016-11-10">
+              2016-11-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Machine-Learning/" itemprop="url" rel="index">
+                    <span itemprop="name">Machine Learning</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <img src="/images/Note-CS231n-Linear-classification-SVM-Softmax-svmvssoftmax.png" width="550" title="Example of the difference between the SVM and Softmax classifiers for one datapoint.">
+<a id="more"></a>
+<p>Last section descibes the problem of Image Classification and solve the problem with KNN. In this section, we describes linear approach for Image Classification. The approach contains two components: <strong>score function</strong> and <strong>loss function</strong></p>
+<ul>
+<li>Linear Score Function: map the pixel values of an image to scores for each class. $f(x_i,W,b) = Wx_i+b$</li>
+</ul>
+<ul>
+<li>Loss Function: measure our unhappiness with outcomes with a loss function (or the cost function or the objective).</li>
+</ul>
+<h2 id="Multiclass-Support-Vector-Machine"><a href="#Multiclass-Support-Vector-Machine" class="headerlink" title="Multiclass Support Vector Machine"></a>Multiclass Support Vector Machine</h2><h3 id="Score-function"><a href="#Score-function" class="headerlink" title="Score function"></a>Score function</h3><p>The score is interpreted as confidence score. The class with highest value is the predicted result.</p>
+<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>The SVM loss is set up so that the SVM “wants” the correct class for each image to a have a score higher than the incorrect classes by some $\Delta$. The Multiclass SVM loss for the i-th example is then formalized as follows:</p>
+<span>$$\begin{aligned}
+L_i  &amp; =  \sum_{j\neq y_i}max(0,s_i - s_{y_i} +\Delta) \\
+&amp; =  \sum_{j\neq y_i}max(0,w_j^Tx_i - w_{y_i}^Tx_i +\Delta)
+\end{aligned}$$</span><!-- Has MathJax -->
+<p>the threshold at zero function is often called the <strong>hinge loss</strong>.</p>
+<h3 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h3><p> If some parameters $W$ correctly classify all examples (so loss is zero for each example), then any multiple of these parameters $\lambda W$ where $\lambda$ will also give zero loss. We wish to encode some preference for a certain set of weights W over others to remove this ambiguity. The full loss becomes:</p>
+ <span>$$L=\underbrace{\dfrac{1}{N}\sum_{i}L_i}_{data loss} + \underbrace{\lambda R(W)}_{regularization loss}$$</span><!-- Has MathJax -->
+<p> Advantages of regularization:</p>
+<ul>
+<li>remove the ambiguity of $W$.</li>
+<li>improve generalization, because it means that no input dimension can have a very large influence on score.</li>
+<li>L2 penalty leads to the appealing max margin property.</li>
+</ul>
+<h2 id="Softmax-classifier"><a href="#Softmax-classifier" class="headerlink" title="Softmax classifier"></a>Softmax classifier</h2><h3 id="Score-function-1"><a href="#Score-function-1" class="headerlink" title="Score function"></a>Score function</h3><p>Interpret the scores function $f(x_i;W)=Wx_i$ as the unnormalized log probabilities for each class.</p>
+<h3 id="Loss-function-1"><a href="#Loss-function-1" class="headerlink" title="Loss function"></a>Loss function</h3><p>Replace the <strong>hinge loss</strong> with a <strong>cross-entropy loss</strong>.</p>
+ <span>$$L_i=-log(\dfrac{e^{f_{y_i}}}{\sum_{j}e^{f_j}})$$</span><!-- Has MathJax -->
+<h4 id="Information-theory-interpratation"><a href="#Information-theory-interpratation" class="headerlink" title="Information theory interpratation"></a>Information theory interpratation</h4><p>The cross-entropy between a “true” distribution ￼ and an estimated distribution.<br> <span>$$H(p,q) = -\sum_{x}p(x)logq(x)$$</span><!-- Has MathJax --><br>Moreover, since the cross-entropy can be written in terms of entropy and the Kullback-Leibler divergence as <span>$H(p,q) = H(p)+D_{KL}(p||q)$</span><!-- Has MathJax -->, and the entropy of the $H(p)$ is zero, this is also equivalent to minimizing the KL divergence between the two distributions.</p>
+<h3 id="Probability-interpretation"><a href="#Probability-interpretation" class="headerlink" title="Probability interpretation"></a>Probability interpretation</h3><p>The (normalized) probability assigned to the correct label $y_i$ given the image $x_i$ and parameterized by $W$.<br> <span>$$p(y_i|x_i;W)=\dfrac{e^{f_{y_i}}}{\sum_{j}e^{f_j}}$$</span><!-- Has MathJax --><br>In the probabilistic interpretation, we are therefore minimizing the negative log likelihood of the correct class, which can be interpreted as performing Maximum Likelihood Estimation (MLE).</p>
+<p>Besides, we can now also interpret the regularization term $R(W)$ in the full loss function as coming from a Gaussian prior over the weight matrix $W$, where instead of MLE we are performing the Maximum a posteriori (MAP) estimation.</p>
+<h2 id="SVM-vs-Softmax"><a href="#SVM-vs-Softmax" class="headerlink" title="SVM vs. Softmax"></a>SVM vs. Softmax</h2><p>The Softmax classifier is never fully happy with the scores it produces: the correct class could always have a higher probability and the incorrect classes always a lower probability and the loss would always get better. However, the SVM is happy once the margins are satisfied and it does not micromanage the exact scores beyond this constraint.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/06/hexo-tutorial/" rel="next" title="Hexo Tutorial">
+                <i class="fa fa-chevron-left"></i> Hexo Tutorial
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/13/hello-world/" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Huang Jie" />
+          <p class="site-author-name" itemprop="name">Huang Jie</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Multiclass-Support-Vector-Machine"><span class="nav-number">1.</span> <span class="nav-text">Multiclass Support Vector Machine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Score-function"><span class="nav-number">1.1.</span> <span class="nav-text">Score function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loss-function"><span class="nav-number">1.2.</span> <span class="nav-text">Loss function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Regularization"><span class="nav-number">1.3.</span> <span class="nav-text">Regularization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Softmax-classifier"><span class="nav-number">2.</span> <span class="nav-text">Softmax classifier</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Score-function-1"><span class="nav-number">2.1.</span> <span class="nav-text">Score function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Loss-function-1"><span class="nav-number">2.2.</span> <span class="nav-text">Loss function</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Information-theory-interpratation"><span class="nav-number">2.2.1.</span> <span class="nav-text">Information theory interpratation</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Probability-interpretation"><span class="nav-number">2.3.</span> <span class="nav-text">Probability interpretation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SVM-vs-Softmax"><span class="nav-number">3.</span> <span class="nav-text">SVM vs. Softmax</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Jie</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

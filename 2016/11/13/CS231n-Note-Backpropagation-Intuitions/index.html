@@ -84,13 +84,16 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://yoursite.com/categories/index.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[CS231n Note] Backpropagation, Intuitions">
+<meta property="og:url" content="http://yoursite.com/2016/11/13/CS231n-Note-Backpropagation-Intuitions/index.html">
 <meta property="og:site_name" content="EverMind">
-<meta property="og:updated_time" content="2016-11-13T07:54:13.000Z">
+<meta property="og:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f1.png">
+<meta property="og:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f2.png">
+<meta property="og:updated_time" content="2016-11-13T13:18:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="[CS231n Note] Backpropagation, Intuitions">
+<meta name="twitter:image" content="http://yoursite.com/images/Note-CS231n-Backpropagation-Intuitions-f1.png">
 
 
 
@@ -111,16 +114,10 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/categories/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/11/13/CS231n-Note-Backpropagation-Intuitions/"/>
 
 
-  <title>
-  
-
-  
-    Category | EverMind
-  
-</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title> [CS231n Note] Backpropagation, Intuitions | EverMind </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
@@ -141,7 +138,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left  ">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
@@ -231,16 +228,148 @@
 
   <div id="posts" class="posts-expand">
     
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
     
-      <div class="category-all-page">
-        <div class="category-all-title">
-            2 categories in total
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [CS231n Note] Backpropagation, Intuitions
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-13T16:02:05+08:00" content="2016-11-13">
+              2016-11-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Neural-Networks/" itemprop="url" rel="index">
+                    <span itemprop="name">Neural Networks</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
         </div>
-        <div class="category-all">
-          <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Neural-Networks/">Neural Networks</a><span class="category-list-count">3</span></li></ul>
-        </div>
-      </div>
+      </header>
     
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/Note-CS231n-Backpropagation-Intuitions-f1.png" alt="profile"><br><a id="more"></a></p>
+<h2 id="Intuitive-understanding-of-backpropagation"><a href="#Intuitive-understanding-of-backpropagation" class="headerlink" title="Intuitive understanding of backpropagation"></a>Intuitive understanding of backpropagation</h2><p>Every gate in a circuit diagram gets some inputs and can right away compute two things: </p>
+<ol>
+<li>its output value.</li>
+<li>the local gradient of its inputs with respect to its output value.</li>
+</ol>
+<p>During the backward pass in which the chain rule is applied recursively backwards through the circuit, the add gate learns that the gradient for its output was -4. If we anthropomorphize the circuit as wanting to output a higher value, then we can think of the circuit as “wanting” the output of the add gate to be lower (due to negative sign), and with a force of 4.</p>
+<p>Backpropagation can thus be thought of as gates communicating to each other (through the gradient signal) whether they want their outputs to increase or decrease (and how strongly), so as to make the </p>
+<h2 id="Modularity-Sigmoid-example"><a href="#Modularity-Sigmoid-example" class="headerlink" title="Modularity: Sigmoid example"></a>Modularity: Sigmoid example</h2><p><img src="/images/Note-CS231n-Backpropagation-Intuitions-f2.png" alt=""><br>Example circuit for a 2D neuron with a sigmoid activation function. The inputs are [x0,x1] and the (learnable) weights of the neuron are [w0,w1,w2].<br><span>$$\begin{aligned}
+f(w,x)=\frac{1}{1+exp(-(w_{0}x_0+w_1x_1+w_2))}
+\end{aligned}$$</span><!-- Has MathJax --></p>
+<h2 id="Gradients-add-up-at-forks"><a href="#Gradients-add-up-at-forks" class="headerlink" title="Gradients add up at forks"></a>Gradients add up at forks</h2><p>If the forward expression involves the varibales multiple times, we mush be carefule to use <code>+=</code> to accumulate the gradient on these variables. This follows the multivariable chain rule in Calculus.</p>
+<h2 id="Unintuitive-effects-and-their-consequences"><a href="#Unintuitive-effects-and-their-consequences" class="headerlink" title="Unintuitive effects and their consequences"></a>Unintuitive effects and their consequences</h2><p>if you multiplied all input data examples by 1000 during preprocessing, then the gradient on the weights will be 1000 times larger, and you’d have to lower the learning rate by that factor to compensate. This is why preprocessing matters a lot.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/10/CS231n-Note-Linear-classification-SVM-Softmax/" rel="next" title="[CS231n Note] Linear classification: SVM, Softmax">
+                <i class="fa fa-chevron-left"></i> [CS231n Note] Linear classification: SVM, Softmax
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/13/CS231n-Note-Neural-Networks-Part-1/" rel="prev" title="[CS231n Note] Neural Networks Part 1">
+                [CS231n Note] Neural Networks Part 1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
   </div>
 
 
@@ -249,6 +378,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -268,8 +401,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.jpg"
@@ -312,6 +454,17 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Intuitive-understanding-of-backpropagation"><span class="nav-number">1.</span> <span class="nav-text">Intuitive understanding of backpropagation</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Modularity-Sigmoid-example"><span class="nav-number">2.</span> <span class="nav-text">Modularity: Sigmoid example</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Gradients-add-up-at-forks"><span class="nav-number">3.</span> <span class="nav-text">Gradients add up at forks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Unintuitive-effects-and-their-consequences"><span class="nav-number">4.</span> <span class="nav-text">Unintuitive effects and their consequences</span></a></li></ol></div>
+            
+          </div>
+        </section>
       
 
     </div>
@@ -408,6 +561,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
 
   
 

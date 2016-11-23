@@ -1,0 +1,644 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="[CS231n Note] Neural Networks Part 2">
+<meta property="og:url" content="http://yoursite.com/2016/11/13/CS231n-Note-Neural-Networks-Part-2/index.html">
+<meta property="og:site_name" content="EverMind">
+<meta property="og:image" content="http://yoursite.com/images/CS231n-Note-Neural-Networks-Part-2-f1.png">
+<meta property="og:image" content="http://yoursite.com/images/CS231n-Note-Neural-Networks-Part-2-f2.png">
+<meta property="og:image" content="http://yoursite.com/images/CS231n-Note-Neural-Networks-Part-2-f3.png">
+<meta property="og:image" content="http://yoursite.com/images/CS231n-Note-Neural-Networks-Part-2-f4.png">
+<meta property="og:updated_time" content="2016-11-23T09:13:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[CS231n Note] Neural Networks Part 2">
+<meta name="twitter:image" content="http://yoursite.com/images/CS231n-Note-Neural-Networks-Part-2-f1.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/11/13/CS231n-Note-Neural-Networks-Part-2/"/>
+
+
+  <title> [CS231n Note] Neural Networks Part 2 | EverMind </title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">EverMind</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Find Something Interesting.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            Schedule
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                [CS231n Note] Neural Networks Part 2
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-13T23:31:38+08:00" content="2016-11-13">
+              2016-11-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Neural-Networks/" itemprop="url" rel="index">
+                    <span itemprop="name">Neural Networks</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="/images/CS231n-Note-Neural-Networks-Part-2-f1.png" alt=""><br><a id="more"></a></p>
+<h2 id="Data-Preprocessing"><a href="#Data-Preprocessing" class="headerlink" title="Data Preprocessing"></a>Data Preprocessing</h2><h3 id="Mean-subtraction"><a href="#Mean-subtraction" class="headerlink" title="Mean subtraction"></a>Mean subtraction</h3><p>It involves subtracting the mean across every individual feature in the data, and has the geometric interpretation of centering the cloud of data around the origin along every dimension.</p>
+<h3 id="Normalization"><a href="#Normalization" class="headerlink" title="Normalization"></a>Normalization</h3><p>It refers to normalizing the data dimensions so that they are of approximately the same scale. In case of images, the relative scales of pixels are already approximately equal (and in range from 0 to 255), so it is not strictly necessary to perform this additional preprocessing step.</p>
+<h3 id="PCA-and-Whitening"><a href="#PCA-and-Whitening" class="headerlink" title="PCA and Whitening"></a>PCA and Whitening</h3><p>It is very often the case that you can get very good performance by training linear classifier on the PCA-reduced datasets, obtaining savings in both space and time. The <strong>whitening</strong> operation takes the data in the eigenbasis and divides every dimension by the eigenvalue to normalize the scale. The geometric interpretation of this transformation is that if the input data is a multivariable gaussian, then the whitened data will be a gaussian with zero mean and identity covariance matrix. One weakness of this transformation is that it can greatly exaggerate the noise in the data, since it stretches all dimensions (including the irrelevant dimensions of tiny variance that are mostly noise) to be of equal size in the input.</p>
+<p><img src="/images/CS231n-Note-Neural-Networks-Part-2-f2.png" alt=""></p>
+<p><img src="/images/CS231n-Note-Neural-Networks-Part-2-f3.png" alt=""></p>
+<h3 id="In-practice"><a href="#In-practice" class="headerlink" title="In practice"></a>In practice</h3><p>We mention PCA/Whitening in these notes for completeness, but these transformations are not used with Convolutional Networks. However, it is very important to zero-center the data, and it is common to see normalization of every pixel as well.</p>
+<h2 id="Weight-Initialization"><a href="#Weight-Initialization" class="headerlink" title="Weight Initialization"></a>Weight Initialization</h2><h3 id="Pitfall-all-zero-initialization"><a href="#Pitfall-all-zero-initialization" class="headerlink" title="Pitfall: all zero initialization"></a>Pitfall: all zero initialization</h3><p>if every neuron in the network computes the same output, then they will also all compute the same gradients during backpropagation and undergo the exact same parameter updates. In other words, there is no source of asymmetry between neurons if their weights are initialized to be the same.</p>
+<h3 id="Small-random-numbers"><a href="#Small-random-numbers" class="headerlink" title="Small random numbers"></a>Small random numbers</h3><p>Therefore, we still want the weights to be very close to zero, but as we have argued above, not identically zero. But it’s not necessarily the case that smaller numbers will work strictly better. For example, a Neural Network layer that has very small weights will during backpropagation compute very small gradients on its data (since this gradient is proportional to the value of the weights).</p>
+<h3 id="Calibrating-the-variances-with-1-sqrt-n"><a href="#Calibrating-the-variances-with-1-sqrt-n" class="headerlink" title="Calibrating the variances with 1/sqrt(n)"></a>Calibrating the variances with 1/sqrt(n)</h3><p>The distribution of the outputs from a randomly initialized neuron has a variance that grows with the number of inputs. Calibration ensures that all neurons in the network initially have approximately <strong>the same output distribution</strong> and empirically improves the rate of convergence.</p>
+<h3 id="Initializing-the-biases"><a href="#Initializing-the-biases" class="headerlink" title="Initializing the biases"></a>Initializing the biases</h3><p>It is possible and common to initialize the biases to be zero, since the asymmetry breaking is provided by the small random numbers in the weights. </p>
+<h3 id="In-practice-1"><a href="#In-practice-1" class="headerlink" title="In practice"></a>In practice</h3><p>The current recommendation is to use ReLU units and use the <code>w = np.random.randn(n) * sqrt(2.0/n)</code>.</p>
+<h3 id="Batch-Normalization"><a href="#Batch-Normalization" class="headerlink" title="Batch Normalization"></a>Batch Normalization</h3><p>Explicitly forcing the activations throughout a network to take on a unit gaussian distribution at the beginning of the training.</p>
+<h2 id="Regularization"><a href="#Regularization" class="headerlink" title="Regularization"></a>Regularization</h2><p>There are several ways of controlling the capacity of Neural Networks to prevent over:</p>
+<h3 id="L2-regularization"><a href="#L2-regularization" class="headerlink" title="L2 regularization"></a>L2 regularization</h3><p>The L2 regularization has the intuitive interpretation of heavily penalizing peaky weight vectors and preferring diffuse weight vectors.</p>
+<h3 id="L1-regularization"><a href="#L1-regularization" class="headerlink" title="L1 regularization"></a>L1 regularization</h3><p>It has the intriguing property that it leads the weight vectors to become sparse during optimization. In other words, neurons with L1 regularization end up using only a sparse subset of their most important inputs and become nearly invariant to the “noisy” inputs. </p>
+<h3 id="Max-norm-constraints"><a href="#Max-norm-constraints" class="headerlink" title="Max norm constraints"></a>Max norm constraints</h3><p>Clamping the weight vector $W$ of every neuron to satisfy $||W||_2 &lt; c$. Typical values of $c$￼are on orders of 3 or 4. One of its appealing properties is that network cannot “explode” even when the learning rates are set too high because the updates are always bounded.</p>
+<h3 id="Dropout"><a href="#Dropout" class="headerlink" title="Dropout"></a>Dropout</h3><p>While training, dropout is implemented by only keeping a neuron active with some probability $p$ (a hyperparameter), or setting it to zero otherwise.</p>
+<p><img src="/images/CS231n-Note-Neural-Networks-Part-2-f4.png" alt=""></p>
+<h3 id="Bias-regularization"><a href="#Bias-regularization" class="headerlink" title="Bias regularization"></a>Bias regularization</h3><p>It is not common to regularize the bias parameters because they do not interact with the data through multiplicative interactions, and therefore do not have the interpretation of controlling the influence of a data dimension on the final objective.</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/13/CS231n-Note-Neural-Networks-Part-1/" rel="next" title="[CS231n Note] Neural Networks Part 1">
+                <i class="fa fa-chevron-left"></i> [CS231n Note] Neural Networks Part 1
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/23/Image-Pyramids-with-Python-and-OpenCV/" rel="prev" title="Image Pyramids with Python and OpenCV">
+                Image Pyramids with Python and OpenCV <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="Huang Jie" />
+          <p class="site-author-name" itemprop="name">Huang Jie</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Data-Preprocessing"><span class="nav-number">1.</span> <span class="nav-text">Data Preprocessing</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Mean-subtraction"><span class="nav-number">1.1.</span> <span class="nav-text">Mean subtraction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Normalization"><span class="nav-number">1.2.</span> <span class="nav-text">Normalization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCA-and-Whitening"><span class="nav-number">1.3.</span> <span class="nav-text">PCA and Whitening</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#In-practice"><span class="nav-number">1.4.</span> <span class="nav-text">In practice</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Weight-Initialization"><span class="nav-number">2.</span> <span class="nav-text">Weight Initialization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Pitfall-all-zero-initialization"><span class="nav-number">2.1.</span> <span class="nav-text">Pitfall: all zero initialization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Small-random-numbers"><span class="nav-number">2.2.</span> <span class="nav-text">Small random numbers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Calibrating-the-variances-with-1-sqrt-n"><span class="nav-number">2.3.</span> <span class="nav-text">Calibrating the variances with 1/sqrt(n)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Initializing-the-biases"><span class="nav-number">2.4.</span> <span class="nav-text">Initializing the biases</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#In-practice-1"><span class="nav-number">2.5.</span> <span class="nav-text">In practice</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Batch-Normalization"><span class="nav-number">2.6.</span> <span class="nav-text">Batch Normalization</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Regularization"><span class="nav-number">3.</span> <span class="nav-text">Regularization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#L2-regularization"><span class="nav-number">3.1.</span> <span class="nav-text">L2 regularization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#L1-regularization"><span class="nav-number">3.2.</span> <span class="nav-text">L1 regularization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Max-norm-constraints"><span class="nav-number">3.3.</span> <span class="nav-text">Max norm constraints</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dropout"><span class="nav-number">3.4.</span> <span class="nav-text">Dropout</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bias-regularization"><span class="nav-number">3.5.</span> <span class="nav-text">Bias regularization</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huang Jie</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+
+
+  
+
+  
+
+  
+
+
+</body>
+</html>

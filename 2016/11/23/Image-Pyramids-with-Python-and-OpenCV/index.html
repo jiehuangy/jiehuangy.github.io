@@ -90,7 +90,7 @@
 <meta property="og:site_name" content="EverMind">
 <meta property="og:image" content="http://yoursite.com/images/Image-Pyramids-with-Python-and-OpenCV-f1.png">
 <meta property="og:image" content="http://yoursite.com/images/Image-Pyramids-with-Python-and-OpenCV-f2.png">
-<meta property="og:updated_time" content="2016-11-23T09:58:08.000Z">
+<meta property="og:updated_time" content="2016-11-23T10:10:49.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Image Pyramids with Python and OpenCV">
 <meta name="twitter:image" content="http://yoursite.com/images/Image-Pyramids-with-Python-and-OpenCV-f1.png">
@@ -293,6 +293,7 @@
 <p>At the bottom of the pyramid we have the original image at its original size (in terms of width and height). And at each subsequent layer, the image is resized (subsampled) and optionally smoothed (usually via Gaussian blurring).</p>
 <h2 id="Image-Pyramid-with-Python-and-OpenCV"><a href="#Image-Pyramid-with-Python-and-OpenCV" class="headerlink" title="Image Pyramid with Python and OpenCV"></a>Image Pyramid with Python and OpenCV</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> cv2</div><div class="line"></div><div class="line">layer = <span class="number">1</span></div><div class="line">image = cv2.imread(<span class="string">'image.jpg'</span>)</div><div class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</div><div class="line">	cv2.imshow(<span class="string">"Layer &#123;&#125;"</span>.format(layer), image)</div><div class="line">	cv2.waitKey(<span class="number">0</span>)</div><div class="line">	layer += <span class="number">1</span></div><div class="line">	<span class="keyword">if</span>(image.shape[<span class="number">0</span>] &lt; <span class="number">50</span> <span class="keyword">or</span> image.shape[<span class="number">1</span>] &lt; <span class="number">50</span>):</div><div class="line">		<span class="keyword">break</span></div><div class="line">	image = cv2.pyrDown(image)</div></pre></td></tr></table></figure>
 <p>Result:<br><img src="/images/Image-Pyramids-with-Python-and-OpenCV-f2.png" alt=""></p>
+<p>Reference: <a href="http://www.pyimagesearch.com/2015/03/16/image-pyramids-with-python-and-opencv/" target="_blank" rel="external">Image Pyramids with Python and OpenCV</a></p>
 
       
     </div>
